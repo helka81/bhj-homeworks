@@ -17,20 +17,19 @@ const moleGame = function () {
       }
       
       if (counterDead === 10) {
-        alert('Вы победили!');
+        resetCounters('Вы победили!');
         stop();
-        resetCounters();
       } else if (counterLost === 5) {
-        alert('Вы проиграли!');
+        resetCounters('Вы проиграли!');
         stop();
-        resetCounters();
       }
     };
   }
 };
 
 
-const resetCounters = () => {
+const resetCounters = (message) => {
+  alert(message);
   counterDead = 0;
   counterLost = 0;
   moleDead.textContent = counterDead;
