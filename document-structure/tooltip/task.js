@@ -14,16 +14,23 @@ let makeElement = function (text) {
 tooltipList.forEach(element => {
   element.addEventListener('click', (e) => {
     e.preventDefault();
-    let text = element.title;
-    let elem = makeElement(text); 
-    elem.classList.add("tooltip_active");
-
+    
+    // Проверяем, открыта ли уже подсказка
+    let existingTooltip = document.querySelector('.tooltip_active');
+    if (existingTooltip) {
+      existingTooltip.remove();
+    } else {
+      let text = element.title;
+      let elem = makeElement(text); 
+      elem.classList.add("tooltip_active");
+    
     // Устанавливаем позицию подсказки относительно элемента
     let rect = element.getBoundingClientRect();
     elem.style.top = rect.bottom + 'px';
     elem.style.left = rect.left + 'px';
 
     document.body.appendChild(elem);
+    }
   });
 });
 
