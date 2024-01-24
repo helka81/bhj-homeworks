@@ -1,31 +1,33 @@
 "use strict";
 
-// Получаем общего родителя для всех элементов
-let products = document.querySelector('.products');
 let cartProducts = document.querySelector('.cart__products');
 
-// Создаем функцию для создания карточек продукта в корзине
-let makeElement = function (id, imageSrc, text) {
-    let element1 = document.createElement('div')
-    element1.classList.add("cart__product");
-    element1.dataset.id = id;
+let addProductToCart = function (id, imageSrc, text) {
+    // Поиск продукта в корзине по id
+    const existingProduct = Array.from(cartProducts.children).find(product => product.dataset.id === id);
 
-    let element2 = document.createElement('img')
-    element2.classList.add("cart__product-image");
-    element2.src = imageSrc;
+    if (existingProduct) {
+        // Продукт уже есть в корзине, увеличиваем количество
+        let quantityElement = existingProduct.querySelector('.cart__product-count');
+        let currentQuantity = +(quantityElement.textContent);
+        quantityElement.textContent = currentQuantity + +text; // Используем значение text как число
+    } else {
+        // Продукта нет в корзине, добавляем новый элемент продукта
+        let productHTML = `
+            <div class="cart__product" data-id="${id}">
+                <img class="cart__product-image" src="${imageSrc}" alt="Product Image">
+                <div class="cart__product-count">
+                    ${text}
+                </div>
+            </div>
+        `;
 
-    let element3 = document.createElement('div')
-    element3.classList.add("cart__product-count");
-    element3.textContent = text;
+        cartProducts.insertAdjacentHTML('beforeend', productHTML);
+    }
+};
 
-    element1.appendChild(element2);
-    element1.appendChild(element3);
-    
-    return element1;
-  };
-
-// Добавляем обработчик событий к родителю
-products.addEventListener('click', (event) => {
+// Добавляем обработчик событий
+document.addEventListener('click', (event) => {
     // Проверяем, произошло ли событие на элементе с классом '.product__quantity-control_dec'
     if (event.target.classList.contains('product__quantity-control_dec')) {
         // Находим соответствующий элемент '.product__quantity-value'
@@ -53,9 +55,7 @@ products.addEventListener('click', (event) => {
             let id = productElement.dataset.id;
             let imageSrc = productElement.querySelector('.product__image').src;
             let text = productElement.querySelector('.product__quantity-value').textContent;
-            let newElement = makeElement(id, imageSrc, text);
-            cartProducts.appendChild(newElement);
+            addProductToCart(id, imageSrc, text);
         }
     }
 });
-
