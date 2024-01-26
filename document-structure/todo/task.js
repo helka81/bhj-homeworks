@@ -21,16 +21,23 @@ let addTask = function (text) {
 // Вешаем обработчик события на форму
 taskForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    addTask(taskInput.value.trim());
-    taskInput.value = '';
+
+      // Получаем текст из поля ввода и удаляем пробелы по бокам
+    let text = taskInput.value.trim();
+
+      // Проверяем, не пусто ли поле после удаления пробелов
+    if (text !== '') {
+        addTask(text);
+        taskInput.value = '';
+    }
 });
 
-// Обработчик события клика по кнопке "Добавить"
-addTaskButton.addEventListener('click', function (e) {
-    e.preventDefault();
-    addTask(taskInput.value.trim());
-    taskInput.value = '';
-});
+// // Обработчик события клика по кнопке "Добавить" не нужен если есть обработчик на форме
+// addTaskButton.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     addTask(taskInput.value.trim());
+//     taskInput.value = '';
+// });
 
 // Обработчик события клика по кнопке удаления
 tasksList.addEventListener('click', function (e) {

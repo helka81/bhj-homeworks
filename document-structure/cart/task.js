@@ -4,7 +4,7 @@ let cartProducts = document.querySelector('.cart__products');
 
 let addProductToCart = function (id, imageSrc, text) {
     // Поиск продукта в корзине по id
-    const existingProduct = Array.from(cartProducts.children).find(product => product.dataset.id === id);
+    const existingProduct = [...cartProducts.children].find(product => product.dataset.id === id);
 
     if (existingProduct) {
         // Продукт уже есть в корзине, увеличиваем количество
