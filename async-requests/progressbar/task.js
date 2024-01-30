@@ -8,9 +8,9 @@ form.addEventListener('submit', (e) => {
 
   xhr.upload.addEventListener('progress', (event) => {
     if (event.lengthComputable) {
-      const percentComplete = (event.loaded / event.total) * 100;
+      const percentComplete = event.loaded / event.total;
       // Обновление значения элемента <progress>
-      progress.value = percentComplete.toFixed(1);
+      progress.value = percentComplete;
         
     }
   });
